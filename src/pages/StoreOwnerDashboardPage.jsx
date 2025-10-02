@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { getStores, getRatings, getUsers } from '../services/dataService';
+import { getStores, getRatings } from '../services/dataService';
+import { getUsers } from '../services/userService';
 import { getCurrentUser } from '../services/authService';
 import '../styles/Dashboard.css';
 import { useReactTable, getCoreRowModel, getSortedRowModel, flexRender } from '@tanstack/react-table';

@@ -60,7 +60,7 @@ function DashboardPage() {
         />
       </div>
 
-      <StoreList stores={stores} ratings={ratings} user={user} handleAddRating={handleAddRating} filtering={filtering} />
+      <StoreList stores={stores} ratings={ratings} user={user} fetchData={fetchData} filtering={filtering} />
     </div>
   );
 }

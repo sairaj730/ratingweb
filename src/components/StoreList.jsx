@@ -1,9 +1,19 @@
-
 import React, { useMemo, useState } from 'react';
 import { useReactTable, getCoreRowModel, getSortedRowModel, getFilteredRowModel, getPaginationRowModel, flexRender } from '@tanstack/react-table';
+import { updateRating } from '../services/dataService';
 
-function StoreList({ stores, ratings, user, handleAddRating, filtering }) {
+function StoreList({ stores, ratings, user, fetchData, filtering }) {
   const [sorting, setSorting] = useState([]);
+
+  const handleRatingChange = async (storeId, rating) => {
+    const existingRating = ratings.find(r => r.storeId === storeId && r.userId === user.id);
+    if (existingRating) {
+      await updateRating({ storeId, rating });
+    } else {
+      await addRating({ storeId, rating });
+    }
+    fetchData();
+  };
 
   const columns = useMemo(
     () => [
@@ -11,11 +21,8 @@ function StoreList({ stores, ratings, user, handleAddRating, filtering }) {
       { header: 'Address', accessorKey: 'address' },
       {
         header: 'Average Rating',
-        accessorKey: 'avgRating',
-        cell: ({ row }) => {
-          const storeRatings = ratings.filter(r => r.storeId === row.original.id);
-          return storeRatings.length > 0 ? (storeRatings.reduce((acc, r) => acc + r.rating, 0) / storeRatings.length).toFixed(1) : 'N/A';
-        },
+        accessorKey: 'rating',
+        cell: ({ row }) => (row.original.rating ? parseFloat(row.original.rating).toFixed(1) : 'N/A'),
       },
       {
         header: 'Your Rating',
@@ -31,7 +38,7 @@ function StoreList({ stores, ratings, user, handleAddRating, filtering }) {
         cell: ({ row }) => (
           <select
             value={ratings.find(r => r.storeId === row.original.id && r.userId === user.id)?.rating || ''}
-            onChange={(e) => handleAddRating(row.original.id, parseInt(e.target.value))}
+            onChange={(e) => handleRatingChange(row.original.id, parseInt(e.target.value))}
           >
             <option value="">Rate</option>
             <option value="1">1</option>
@@ -43,7 +50,7 @@ function StoreList({ stores, ratings, user, handleAddRating, filtering }) {
         ),
       },
     ],
-    [ratings, user.id, handleAddRating]
+    [ratings, user.id, handleRatingChange]
   );
 
   const table = useReactTable({

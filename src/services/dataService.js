@@ -15,3 +15,15 @@ export const getRatings = () => {
 export const addRating = (ratingData) => {
   return axios.post(`${API_URL}/ratings/add`, ratingData, { headers: authHeader() });
 };
+
+export const getStats = () => {
+  return axios.get(`${API_URL}/stats`, { headers: authHeader() });
+};
+
+export const addStore = (storeData) => {
+  return axios.post(`${API_URL}/stores/add`, storeData, { headers: authHeader() });
+};
+
+export const updateRating = (ratingData) => {
+  return axios.put(`${API_URL}/ratings/update`, ratingData, { headers: authHeader() });
+};

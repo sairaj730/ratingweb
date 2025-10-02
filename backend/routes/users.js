@@ -1,20 +1,10 @@
 
-const router = require('express').Router();
-const db = require('../db');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-  if (token == null) return res.sendStatus(401);
-
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403);
-    req.user = user;
-    next();
-  });
-};
+import express from 'express';
+const router = express.Router();
+import db from '../db.js';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { authenticateToken } from '../utils/auth.js';
 
 router.route('/register').post(async (req, res) => {
   const { name, email, password, address, role } = req.body;
@@ -71,4 +61,23 @@ router.route('/update-password').put(authenticateToken, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
+
+router.route('/').get(authenticateToken, async (req, res) => {
+  if (req.user.role !== 'System Administrator') {
+    return res.sendStatus(403);
+  }
+  try {
+    const [rows] = await db.query(`
+      SELECT u.id, u.name, u.email, u.address, u.role, AVG(r.rating) as rating
+      FROM users u
+      LEFT JOIN stores s ON u.id = s.owner_id
+      LEFT JOIN ratings r ON s.id = r.store_id
+      GROUP BY u.id
+    `);
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
