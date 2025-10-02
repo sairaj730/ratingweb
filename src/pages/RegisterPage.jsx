@@ -14,8 +14,8 @@ function RegisterPage() {
 
   const validateForm = () => {
     const newErrors = {};
-    if (name.length < 20 || name.length > 60) {
-      newErrors.name = 'Name must be between 20 and 60 characters.';
+    if (name.length < 2 || name.length > 60) {
+      newErrors.name = 'Name must be between 2 and 60 characters.';
     }
     if (address.length > 400) {
       newErrors.address = 'Address can be a maximum of 400 characters.';

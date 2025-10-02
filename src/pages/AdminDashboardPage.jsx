@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { getStats, getStores } from '../services/dataService';
+import { getStats, getStores, addStore } from '../services/dataService';
 import { register } from '../services/authService';
 import { getUsers } from '../services/userService';
 import '../styles/Dashboard.css';
@@ -101,9 +101,18 @@ function AdminDashboardPage() {
       <h1>Admin Dashboard</h1>
 
       <div className="stats-container">
-        <div className="stat-card">Total Users: {stats.users}</div>
-        <div className="stat-card">Total Stores: {stats.stores}</div>
-        <div className="stat-card">Total Ratings: {stats.ratings}</div>
+        <div className="stat-card">
+          <h3>Total Users</h3>
+          <p>{stats.users}</p>
+        </div>
+        <div className="stat-card">
+          <h3>Total Stores</h3>
+          <p>{stats.stores}</p>
+        </div>
+        <div className="stat-card">
+          <h3>Total Ratings</h3>
+          <p>{stats.ratings}</p>
+        </div>
       </div>
 
       <div className="add-user-form">
@@ -169,48 +178,51 @@ function AdminDashboardPage() {
           </tbody>
         </table>
         <div className="pagination">
-          <button onClick={() => userTable.setPageIndex(0)} disabled={!userTable.getCanPreviousPage()}>
-            {'<<'}
-          </button>{' '}
-          <button onClick={() => userTable.previousPage()} disabled={!userTable.getCanPreviousPage()}>
-            {'<'}
-          </button>{' '}
-          <button onClick={() => userTable.nextPage()} disabled={!userTable.getCanNextPage()}>
-            {'>'}
-          </button>{' '}
-          <button onClick={() => userTable.setPageIndex(userTable.getPageCount() - 1)} disabled={!userTable.getCanNextPage()}>
-            {'>>'}
-          </button>
-          <span>
+          <div className="pagination-controls">
+            <button onClick={() => userTable.setPageIndex(0)} disabled={!userTable.getCanPreviousPage()}>
+              {'<<'}
+            </button>
+            <button onClick={() => userTable.previousPage()} disabled={!userTable.getCanPreviousPage()}>
+              {'<'}
+            </button>
+            <button onClick={() => userTable.nextPage()} disabled={!userTable.getCanNextPage()}>
+              {'>'}
+            </button>
+            <button onClick={() => userTable.setPageIndex(userTable.getPageCount() - 1)} disabled={!userTable.getCanNextPage()}>
+              {'>>'}
+            </button>
+          </div>
+          <span className="page-info">
             Page{' '}
             <strong>
               {userTable.getState().pagination.pageIndex + 1} of {userTable.getPageCount()}
             </strong>
           </span>
-          <span>
-            | Go to page:
-            <input
-              type="number"
-              defaultValue={userTable.getState().pagination.pageIndex + 1}
+          <div className="page-actions">
+            <span>
+              Go to page:
+              <input
+                type="number"
+                defaultValue={userTable.getState().pagination.pageIndex + 1}
+                onChange={e => {
+                  const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                  userTable.setPageIndex(page);
+                }}
+              />
+            </span>
+            <select
+              value={userTable.getState().pagination.pageSize}
               onChange={e => {
-                const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                userTable.setPageIndex(page);
+                userTable.setPageSize(Number(e.target.value));
               }}
-              style={{ width: '100px' }}
-            />
-          </span>{' '}
-          <select
-            value={userTable.getState().pagination.pageSize}
-            onChange={e => {
-              userTable.setPageSize(Number(e.target.value));
-            }}
-          >
-            {[10, 20, 30, 40, 50].map(pageSize => (
-              <option key={pageSize} value={pageSize}>
-                Show {pageSize}
-              </option>
-            ))}
-          </select>
+            >
+              {[10, 20, 30, 40, 50].map(pageSize => (
+                <option key={pageSize} value={pageSize}>
+                  Show {pageSize}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
@@ -250,48 +262,51 @@ function AdminDashboardPage() {
           </tbody>
         </table>
         <div className="pagination">
-          <button onClick={() => storeTable.setPageIndex(0)} disabled={!storeTable.getCanPreviousPage()}>
-            {'<<'}
-          </button>{' '}
-          <button onClick={() => storeTable.previousPage()} disabled={!storeTable.getCanPreviousPage()}>
-            {'<'}
-          </button>{' '}
-          <button onClick={() => storeTable.nextPage()} disabled={!storeTable.getCanNextPage()}>
-            {'>'}
-          </button>{' '}
-          <button onClick={() => storeTable.setPageIndex(storeTable.getPageCount() - 1)} disabled={!storeTable.getCanNextPage()}>
-            {'>>'}
-          </button>
-          <span>
+          <div className="pagination-controls">
+            <button onClick={() => storeTable.setPageIndex(0)} disabled={!storeTable.getCanPreviousPage()}>
+              {'<<'}
+            </button>
+            <button onClick={() => storeTable.previousPage()} disabled={!storeTable.getCanPreviousPage()}>
+              {'<'}
+            </button>
+            <button onClick={() => storeTable.nextPage()} disabled={!storeTable.getCanNextPage()}>
+              {'>'}
+            </button>
+            <button onClick={() => storeTable.setPageIndex(storeTable.getPageCount() - 1)} disabled={!storeTable.getCanNextPage()}>
+              {'>>'}
+            </button>
+          </div>
+          <span className="page-info">
             Page{' '}
             <strong>
               {storeTable.getState().pagination.pageIndex + 1} of {storeTable.getPageCount()}
             </strong>
           </span>
-          <span>
-            | Go to page:
-            <input
-              type="number"
-              defaultValue={storeTable.getState().pagination.pageIndex + 1}
+          <div className="page-actions">
+            <span>
+              Go to page:
+              <input
+                type="number"
+                defaultValue={storeTable.getState().pagination.pageIndex + 1}
+                onChange={e => {
+                  const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                  storeTable.setPageIndex(page);
+                }}
+              />
+            </span>
+            <select
+              value={storeTable.getState().pagination.pageSize}
               onChange={e => {
-                const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                storeTable.setPageIndex(page);
+                storeTable.setPageSize(Number(e.target.value));
               }}
-              style={{ width: '100px' }}
-            />
-          </span>{' '}
-          <select
-            value={storeTable.getState().pagination.pageSize}
-            onChange={e => {
-              storeTable.setPageSize(Number(e.target.value));
-            }}
-          >
-            {[10, 20, 30, 40, 50].map(pageSize => (
-              <option key={pageSize} value={pageSize}>
-                Show {pageSize}
-              </option>
-            ))}
-          </select>
+            >
+              {[10, 20, 30, 40, 50].map(pageSize => (
+                <option key={pageSize} value={pageSize}>
+                  Show {pageSize}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
     </div>

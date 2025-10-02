@@ -51,6 +51,13 @@ function DashboardPage() {
       <h1>Dashboard</h1>
       <p>Welcome to your dashboard, {user?.name}.</p>
 
+      <div className="stats-container">
+        <div className="stat-card">
+          <h3>Total Ratings</h3>
+          <p>{ratings.filter(r => r.userId === user.id).length}</p>
+        </div>
+      </div>
+
       <div className="search-bar">
         <input
           type="text"

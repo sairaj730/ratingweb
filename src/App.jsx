@@ -1,8 +1,6 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Sidebar from './components/Sidebar';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -10,8 +8,9 @@ import DashboardPage from './pages/DashboardPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import StoreOwnerDashboardPage from './pages/StoreOwnerDashboardPage';
 import ProfilePage from './pages/ProfilePage';
-import { getCurrentUser } from './services/authService';
+import { getCurrentUser, logout } from './services/authService';
 import { jwtDecode } from 'jwt-decode';
+import './App.css';
 
 const ROLES = {
   ADMIN: 'System Administrator',
@@ -34,11 +33,23 @@ const ProtectedRoute = ({ children, roles }) => {
 };
 
 function App() {
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const user = getCurrentUser();
+
+  const toggleSidebar = () => {
+    setIsSidebarCollapsed(!isSidebarCollapsed);
+  };
+
+  const handleLogout = () => {
+    logout();
+    window.location.reload();
+  };
+
   return (
     <Router>
       <div className="App">
-        <Header />
-        <main>
+        <Sidebar user={user} isCollapsed={isSidebarCollapsed} toggleSidebar={toggleSidebar} handleLogout={handleLogout} />
+        <main className={`main-content ${isSidebarCollapsed ? 'collapsed' : ''}`}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
@@ -52,7 +63,7 @@ function App() {
               }
             />
             <Route 
-              path="/admin/dashboard" 
+              path="/admin" 
               element={
                 <ProtectedRoute roles={[ROLES.ADMIN]}>
                   <AdminDashboardPage />
@@ -60,7 +71,7 @@ function App() {
               }
             />
             <Route 
-              path="/store/dashboard" 
+              path="/store-owner" 
               element={
                 <ProtectedRoute roles={[ROLES.STORE_OWNER]}>
                   <StoreOwnerDashboardPage />
@@ -77,7 +88,6 @@ function App() {
             />
           </Routes>
         </main>
-        <Footer />
       </div>
     </Router>
   );

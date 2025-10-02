@@ -6,13 +6,13 @@
 }
 
 form {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 50px;
   border-radius: 20px;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
   width: 100%;
   max-width: 450px;
 }
@@ -20,8 +20,9 @@ form {
 form h2 {
   margin-bottom: 30px;
   text-align: center;
-  font-size: 28px;
+  font-size: 2rem;
   font-weight: 700;
+  color: var(--text-color);
 }
 
 form input,
@@ -29,34 +30,51 @@ form select {
   width: 100%;
   padding: 15px;
   margin-bottom: 25px;
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid var(--dark-color);
   border-radius: 10px;
-  background-color: rgba(255, 255, 255, 0.5);
-  font-size: 16px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-size: 1rem;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 form input:focus,
 form select:focus {
   outline: none;
-  border-color: rgba(0, 122, 255, 0.8);
+  border-color: var(--primary-color);
   box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.25);
 }
 
 form button {
   width: 100%;
   padding: 15px;
-  background: linear-gradient(45deg, rgba(0, 122, 255, 0.8), rgba(0, 94, 203, 0.9));
-  color: #fff;
+  background-color: var(--primary-color);
+  color: var(--text-color);
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 600;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 form button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.4);
+  background-color: #0056b3;
+}
+
+.message {
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.message.success {
+  background-color: var(--success-color);
+  color: var(--text-color);
+}
+
+.message.error {
+  background-color: var(--danger-color);
+  color: var(--text-color);
 }

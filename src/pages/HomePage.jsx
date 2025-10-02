@@ -11,7 +11,6 @@ function HomePage() {
         <p>The ultimate platform for rating and reviewing stores. Your opinion matters.</p>
         <div className="hero-buttons">
           <Link to="/register" className="btn btn-primary">Get Started</Link>
-          <Link to="/login" className="btn btn-secondary">Login</Link>
         </div>
       </div>
     </div>

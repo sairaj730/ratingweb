@@ -1,4 +1,3 @@
-
 import express from 'express';
 const router = express.Router();
 import db from '../db.js';
@@ -14,7 +13,8 @@ router.route('/').get(authenticateToken, async (req, res) => {
     `);
     res.json(rows);
   } catch (err) {
-    res.status(400).json('Error: ' + err);
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
@@ -32,7 +32,8 @@ router.route('/add').post(authenticateToken, async (req, res) => {
     await db.query('INSERT INTO stores SET ?', newStore);
     res.json('Store added!');
   } catch (err) {
-    res.status(400).json('Error: ' + err);
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

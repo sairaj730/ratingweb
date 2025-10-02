@@ -7,9 +7,9 @@ import { authenticateToken } from '../utils/auth.js';
 router.route('/').get(authenticateToken, async (req, res) => {
   try {
     const [rows] = await db.query('SELECT * FROM ratings');
-    res.json(rows);
   } catch (err) {
-    res.status(400).json('Error: ' + err);
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
@@ -21,7 +21,8 @@ router.route('/add').post(authenticateToken, async (req, res) => {
     await db.query('INSERT INTO ratings SET ?', newRating);
     res.json('Rating added!');
   } catch (err) {
-    res.status(400).json('Error: ' + err);
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
@@ -32,7 +33,8 @@ router.route('/update').put(authenticateToken, async (req, res) => {
     await db.query('UPDATE ratings SET rating = ? WHERE user_id = ? AND store_id = ?', [rating, user_id, store_id]);
     res.json('Rating updated!');
   } catch (err) {
-    res.status(400).json('Error: ' + err);
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

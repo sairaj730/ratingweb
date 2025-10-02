@@ -34,7 +34,7 @@ function ProfilePage() {
     <div className="form-container">
       <form onSubmit={handleSubmit}>
         <h2>Update Password</h2>
-        {message && <p>{message}</p>}
+        {message && <div className={`message ${error ? 'error' : 'success'}`}>{message}</div>}
         <input
           type="password"
           placeholder="New Password"

@@ -1,0 +1,58 @@
+.sidebar {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar.collapsed {
+  transform: translateX(-100%);
+}
+
+.sidebar h2 {
+  color: var(--text-color);
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar ul li a {
+  display: block;
+  color: var(--text-color-secondary);
+  padding: 15px 20px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+.toggle-btn {
+  position: absolute;
+  top: 20px;
+  right: -30px;
+  width: 30px;
+  height: 30px;
+  background-color: var(--surface-color);
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  border-radius: 0 5px 5px 0;
+}
