@@ -1,9 +1,5 @@
 # RatingWeb - Store Rating Application
 
-<div align="center">
-  <img src="./src/assets/logo.png" alt="RatingWeb Logo" width="200"/>
-</div>
-
 <p align="center">
   <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT" />
   <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
@@ -29,29 +25,7 @@ RatingWeb is a full-stack web application that allows users to rate and review s
 
 ## 🚀 Live Demo
 
-[Link to your live demo]()
-
-## 📸 Screenshots & GIFs
-
-Here are some screenshots and GIFs to give you a better understanding of the project. You can create these yourself and replace the placeholders.
-
-**Login Page**
-
-*Replace this with a screenshot of the login page.*
-
-![Login Page](path/to/your/login-screenshot.png)
-
-**User Dashboard (Animated!)**
-
-*Create a GIF showcasing the user dashboard and its features. You can use a tool like [Giphy Capture](https://giphy.com/apps/giphycapture) or [ScreenToGif](https://www.screentogif.com/) to record your screen and save it as a GIF.*
-
-![User Dashboard GIF](path/to/your/dashboard-gif.gif)
-
-**Admin Dashboard**
-
-*Replace this with a screenshot of the admin dashboard.*
-
-![Admin Dashboard](path/to/your/admin-dashboard-screenshot.png)
+A live demo of the application is not available at the moment.
 
 ## 🛠️ Tech Stack
 
@@ -87,8 +61,8 @@ Follow these instructions to get a copy of the project up and running on your lo
 1.  **Clone the repository:**
 
     ```sh
-    git clone https://github.com/[your-username]/rating-web.git
-    cd rating-web
+    git clone <repository-url>
+    cd <repository-folder>
     ```
 
 2.  **Install frontend dependencies:**
@@ -155,6 +129,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 📧 Contact
 
-[Your Name] - [your-email@example.com]
-
-Project Link: [https://github.com/[your-username]/rating-web](https://github.com/[your-username]/rating-web)
+For any questions or feedback, please open an issue in the GitHub repository.
